@@ -1,0 +1,54 @@
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyle } from './styles/GlobalStyles';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import Products from './components/Products';
+import Configurator from './components/Configurator';
+import About from './components/About';
+import Testimonials from './components/Testimonials';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
+
+const theme = {
+  colors: {
+    primary: '#d4af37',
+    secondary: '#b8941f',
+    dark: '#2c2c2c',
+    light: '#f8f8f8',
+    gray: '#e0e0e0',
+    white: '#ffffff'
+  },
+  fonts: {
+    heading: "'Playfair Display', serif",
+    body: "'Inter', sans-serif"
+  }
+};
+
+function App() {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <div className="App">
+        <Header onNavigate={scrollToSection} />
+        <main>
+          <Hero onNavigateToConfigurator={() => scrollToSection('configurator')} />
+          <Products />
+          <Configurator />
+          <About />
+          <Testimonials />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+    </ThemeProvider>
+  );
+}
+
+export default App;
