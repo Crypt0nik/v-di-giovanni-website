@@ -62,33 +62,25 @@ const ContactGrid = styled.div`
 const ContactInfoSection = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 50px;
 `;
 
-const InfoCard = styled(motion.div)`
-  background: var(--white);
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(212, 165, 116, 0.1);
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-  }
+const InfoGroup = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 const InfoHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 `;
 
 const IconWrapper = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
   border-radius: 12px;
   display: flex;
@@ -99,18 +91,16 @@ const IconWrapper = styled.div`
 
 const InfoTitle = styled.h3`
   font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   color: var(--text-dark);
   margin: 0;
 `;
 
 const InfoContent = styled.div`
-  color: var(--text-light);
-  line-height: 1.6;
+  padding-left: 60px;
   
-  strong {
-    color: var(--text-dark);
-    font-weight: 600;
+  @media (max-width: 600px) {
+    padding-left: 0;
   }
 `;
 
@@ -118,7 +108,7 @@ const ContactItem = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
   
   &:last-child {
     margin-bottom: 0;
@@ -386,13 +376,10 @@ const Contact: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <InfoCard
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.3 }}
-            >
+            <InfoGroup>
               <InfoHeader>
                 <IconWrapper>
-                  <MessageCircle size={24} />
+                  <MessageCircle size={22} />
                 </IconWrapper>
                 <InfoTitle>Nous contacter</InfoTitle>
               </InfoHeader>
@@ -412,15 +399,12 @@ const Contact: React.FC = () => {
                   </ContactDetail>
                 </ContactItem>
               </InfoContent>
-            </InfoCard>
+            </InfoGroup>
 
-            <InfoCard
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.3 }}
-            >
+            <InfoGroup>
               <InfoHeader>
                 <IconWrapper>
-                  <MapPin size={24} />
+                  <MapPin size={22} />
                 </IconWrapper>
                 <InfoTitle>Notre Atelier</InfoTitle>
               </InfoHeader>
@@ -432,20 +416,22 @@ const Contact: React.FC = () => {
                     <div className="sub">Atelier de création artisanale</div>
                   </ContactDetail>
                 </ContactItem>
-                <p style={{ marginTop: '15px', color: 'var(--text-light)' }}>
+                <p style={{ 
+                  marginTop: '15px', 
+                  color: 'var(--text-light)',
+                  lineHeight: '1.6',
+                  fontSize: '0.95rem'
+                }}>
                   Venez découvrir notre atelier et rencontrer nos artisans. 
-                  <strong> Sur rendez-vous uniquement.</strong>
+                  <span style={{ color: 'var(--text-dark)', fontWeight: '600' }}> Sur rendez-vous uniquement.</span>
                 </p>
               </InfoContent>
-            </InfoCard>
+            </InfoGroup>
 
-            <InfoCard
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.3 }}
-            >
+            <InfoGroup>
               <InfoHeader>
                 <IconWrapper>
-                  <Clock size={24} />
+                  <Clock size={22} />
                 </IconWrapper>
                 <InfoTitle>Horaires</InfoTitle>
               </InfoHeader>
@@ -472,7 +458,7 @@ const Contact: React.FC = () => {
                   </ContactDetail>
                 </ContactItem>
               </InfoContent>
-            </InfoCard>
+            </InfoGroup>
           </ContactInfoSection>
 
           <ContactForm
