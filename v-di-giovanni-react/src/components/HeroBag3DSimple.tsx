@@ -3,7 +3,6 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Group } from 'three';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { ShoppingBag } from 'lucide-react';
 
 // Container simple
 const BagContainer = styled(motion.div)`

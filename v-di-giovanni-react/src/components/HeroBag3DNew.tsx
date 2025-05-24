@@ -4,7 +4,6 @@ import { useGLTF, Environment } from '@react-three/drei';
 import { Group } from 'three';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import SimpleBag3D from './SimpleBag3D';
 
 // Container pour le modèle 3D
 const BagContainer = styled(motion.div)`
