@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Grip, Palette } from 'lucide-react';
 import { Container, SectionTitle, SectionSubtitle } from '../styles/GlobalStyles';
+import BagViewer3D from './BagViewer3D';
 
 const ConfiguratorSection = styled.section`
   background: var(--secondary-color);
@@ -38,45 +39,6 @@ const BagPreview = styled.div`
 
   @media (max-width: 768px) {
     padding: 2rem;
-  }
-`;
-
-const BagVisual = styled(motion.div)<{ bodyColor: string; handleColor: string; flapColor: string }>`
-  width: 300px;
-  height: 300px;
-  background: ${props => props.bodyColor};
-  border-radius: 15px;
-  margin: 0 auto 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-  color: var(--white);
-  position: relative;
-  overflow: hidden;
-  border: 3px solid ${props => props.handleColor};
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 30%;
-    background: ${props => props.flapColor};
-    border-radius: 12px 12px 0 0;
-  }
-
-  @media (max-width: 768px) {
-    width: 250px;
-    height: 250px;
-    font-size: 2.5rem;
-  }
-
-  @media (max-width: 480px) {
-    width: 200px;
-    height: 200px;
-    font-size: 2rem;
   }
 `;
 
@@ -385,22 +347,9 @@ const Configurator: React.FC = () => {
 
         <ConfiguratorInterface>
           <BagPreview>
-            <BagVisual
-              bodyColor={config.bodyColor}
-              handleColor={config.handleColor}
-              flapColor={config.flapColor}
-              animate={{ 
-                scale: [1, 1.05, 1],
-                rotate: [0, 2, -2, 0]
-              }}
-              transition={{ 
-                duration: 2,
-                repeat: Infinity,
-                repeatType: "reverse"
-              }}
-            >
-              <ShoppingBag />
-            </BagVisual>
+            <BagViewer3D
+              configuration={config}
+            />
             <PriceDisplay>{calculatePrice()}€</PriceDisplay>
             <p style={{ color: 'var(--text-light)', marginBottom: '1rem' }}>
               Prix personnalisé selon vos choix

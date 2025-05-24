@@ -1,0 +1,15 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rabat du sac -->
+  <path d="M 90 100 Q 150 80 210 100 L 205 140 Q 150 120 95 140 Z" fill="#A0522D" stroke="#8B4513" stroke-width="2"/>
+  
+  <!-- Fermoir du rabat -->
+  <circle cx="150" cy="115" r="6" fill="#D4AF37" stroke="#B8860B" stroke-width="1"/>
+  <circle cx="150" cy="115" r="3" fill="#FFD700"/>
+  
+  <!-- Détails de couture sur le rabat -->
+  <path d="M 95 105 Q 150 90 205 105" stroke="#8B4513" stroke-width="1" fill="none" opacity="0.7"/>
+  <path d="M 95 125 Q 150 110 205 125" stroke="#8B4513" stroke-width="1" fill="none" opacity="0.7"/>
+  
+  <!-- Ombrage du rabat -->
+  <path d="M 90 100 Q 150 80 210 100 L 205 105 Q 150 85 95 105 Z" fill="#8B4513" opacity="0.3"/>
+</svg>

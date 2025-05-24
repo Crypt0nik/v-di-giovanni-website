@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Configurateur PNG - Diagnostic de Chargement</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .bag-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .bag-part {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: filter 0.8s ease;
+        }
+
+        .color-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .color-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .color-btn.active {
+            transform: scale(1.2);
+            border-color: #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .info-panel {
+            text-align: left;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .loading-status {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+        }
+
+        .loading-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff4444;
+        }
+
+        .status-indicator.loaded {
+            background: #44ff44;
+        }
+
+        .debug-images {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            gap: 10px;
+        }
+
+        .debug-image {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            background: white;
+            border-radius: 5px;
+            border: 2px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Test Configurateur PNG - Diagnostic Complet</h1>
+
+        <div class="test-section">
+            <h2>Configurateur PNG avec Filtres CSS</h2>
+            
+            <div class="color-selector">
+                <div class="color-btn active" style="background: #D4A574;" onclick="changeColor('#D4A574', this)" title="Beige Nude"></div>
+                <div class="color-btn" style="background: #F4E6E1;" onclick="changeColor('#F4E6E1', this)" title="Rose Poudré"></div>
+                <div class="color-btn" style="background: #8B4513;" onclick="changeColor('#8B4513', this)" title="Marron Cognac"></div>
+                <div class="color-btn" style="background: #2C2C2C;" onclick="changeColor('#2C2C2C', this)" title="Gris Foncé"></div>
+                <div class="color-btn" style="background: #8B1538;" onclick="changeColor('#8B1538', this)" title="Bordeaux"></div>
+                <div class="color-btn" style="background: #1E3A8A;" onclick="changeColor('#1E3A8A', this)" title="Bleu Marine"></div>
+            </div>
+
+            <div class="bag-container" id="bagContainer">
+                <img class="bag-part" id="bagBody" src="/images/bag-parts/bag-body.png" alt="Corps du sac" />
+                <img class="bag-part" id="bagFlap" src="/images/bag-parts/bag-flap.png" alt="Rabat du sac" />
+                <img class="bag-part" id="bagHandle" src="/images/bag-parts/bag-handle.png" alt="Poignée du sac" />
+            </div>
+
+            <div class="loading-status">
+                <div class="loading-item">
+                    <div class="status-indicator" id="bodyStatus"></div>
+                    <span>Corps</span>
+                </div>
+                <div class="loading-item">
+                    <div class="status-indicator" id="flapStatus"></div>
+                    <span>Rabat</span>
+                </div>
+                <div class="loading-item">
+                    <div class="status-indicator" id="handleStatus"></div>
+                    <span>Poignée</span>
+                </div>
+            </div>
+
+            <div class="info-panel" id="infoPanel">
+                Couleur actuelle: Beige Nude (#D4A574)<br>
+                Filtre appliqué: sepia(0.8) saturate(1.2) hue-rotate(25deg) brightness(1.1) contrast(1.05)<br>
+                Images chargées: 0/3<br>
+                Statut: Chargement en cours...
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Images PNG Originales (Debug)</h2>
+            <div class="debug-images">
+                <img class="debug-image" src="/images/bag-parts/bag-body.png" alt="Corps original" />
+                <img class="debug-image" src="/images/bag-parts/bag-flap.png" alt="Rabat original" />
+                <img class="debug-image" src="/images/bag-parts/bag-handle.png" alt="Poignée originale" />
+            </div>
+            <p>Si vous voyez ces 3 images ↑, les PNG sont accessibles</p>
+        </div>
+    </div>
+
+    <script>
+        // Configuration des couleurs et filtres (identique au composant React)
+        const colorFilters = {
+            '#D4A574': 'sepia(0.8) saturate(1.2) hue-rotate(25deg) brightness(1.1) contrast(1.05)', // Beige Nude
+            '#F4E6E1': 'sepia(0.3) saturate(0.5) hue-rotate(15deg) brightness(1.05) contrast(0.95)', // Rose Poudré
+            '#8B4513': 'sepia(1) saturate(2.8) hue-rotate(15deg) brightness(0.7) contrast(1.3)', // Marron Cognac
+            '#2C2C2C': 'grayscale(1) brightness(0.35) contrast(1.8)', // Gris Foncé
+            '#8B1538': 'sepia(1) saturate(2.5) hue-rotate(330deg) brightness(0.65) contrast(1.4)', // Bordeaux
+            '#1E3A8A': 'sepia(1) saturate(2) hue-rotate(200deg) brightness(0.55) contrast(1.6)' // Bleu Marine
+        };
+
+        const colorNames = {
+            '#D4A574': 'Beige Nude',
+            '#F4E6E1': 'Rose Poudré', 
+            '#8B4513': 'Marron Cognac',
+            '#2C2C2C': 'Gris Foncé',
+            '#8B1538': 'Bordeaux',
+            '#1E3A8A': 'Bleu Marine'
+        };
+
+        let loadedImages = { body: false, flap: false, handle: false };
+        let currentColor = '#D4A574';
+
+        // Configuration des images
+        const images = {
+            body: document.getElementById('bagBody'),
+            flap: document.getElementById('bagFlap'), 
+            handle: document.getElementById('bagHandle')
+        };
+
+        const statusIndicators = {
+            body: document.getElementById('bodyStatus'),
+            flap: document.getElementById('flapStatus'),
+            handle: document.getElementById('handleStatus')
+        };
+
+        // Gestionnaires de chargement
+        Object.keys(images).forEach(part => {
+            const img = images[part];
+            
+            img.onload = () => {
+                console.log(`✅ Image ${part} chargée avec succès`);
+                loadedImages[part] = true;
+                statusIndicators[part].classList.add('loaded');
+                updateInfo();
+            };
+
+            img.onerror = (e) => {
+                console.error(`❌ Erreur de chargement pour ${part}:`, e);
+                updateInfo();
+            };
+        });
+
+        function changeColor(colorHex, buttonElement) {
+            // Mettre à jour l'UI
+            document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
+            buttonElement.classList.add('active');
+            
+            currentColor = colorHex;
+            
+            // Appliquer le filtre
+            const filter = colorFilters[colorHex];
+            
+            Object.values(images).forEach(img => {
+                img.style.filter = filter;
+            });
+            
+            updateInfo();
+            
+            console.log(`🎨 Couleur changée: ${colorNames[colorHex]} (${colorHex})`);
+            console.log(`🔧 Filtre appliqué: ${filter}`);
+        }
+
+        function updateInfo() {
+            const loadedCount = Object.values(loadedImages).filter(Boolean).length;
+            const allLoaded = loadedCount === 3;
+            
+            document.getElementById('infoPanel').innerHTML = `
+                Couleur actuelle: ${colorNames[currentColor]} (${currentColor})<br>
+                Filtre appliqué: ${colorFilters[currentColor]}<br>
+                Images chargées: ${loadedCount}/3<br>
+                Statut: ${allLoaded ? '✅ Toutes les images sont chargées!' : '⏳ Chargement en cours...'}
+            `;
+        }
+
+        // Appliquer la couleur initiale
+        changeColor(currentColor, document.querySelector('.color-btn.active'));
+        updateInfo();
+
+        console.log('🚀 Test configurateur PNG initialisé');
+        console.log('📁 Images à charger:', Object.keys(images));
+    </script>
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation Finale - 6 Couleurs Configurateur</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #d4a574;
+            margin: 0 0 10px 0;
+            font-size: 2.2rem;
+        }
+
+        .header p {
+            color: #666;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .validation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .color-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .color-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .color-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            color: #2c2c2c;
+        }
+
+        .color-reference {
+            width: 100%;
+            height: 50px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2c2c2c;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+
+        .test-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 15px;
+            border: 2px solid #e5e5e5;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+
+        .bag-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .overlay-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .method-info {
+            font-size: 0.85rem;
+            color: #666;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            line-height: 1.3;
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .status.overlay {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status.filter {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .summary {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .summary h2 {
+            color: #d4a574;
+            margin: 0 0 15px 0;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .summary-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #d4a574;
+        }
+
+        .summary-item h4 {
+            margin: 0 0 8px 0;
+            color: #2c2c2c;
+        }
+
+        .summary-item p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .validation-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 15px;
+            }
+            
+            .test-container {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>✅ Validation Finale - Système PNG Configurateur</h1>
+        <p>Test des 6 couleurs du configurateur avec le nouveau système de coloration optimisé</p>
+    </div>
+
+    <div class="validation-grid">
+        <!-- Marron Cognac -->
+        <div class="color-card">
+            <div class="color-name">Marron Cognac</div>
+            <div class="color-reference" style="background-color: #8B4513;">#8B4513</div>
+            <div class="test-container">
+                <img src="/images/bag-parts/bag-flap.png" 
+                     alt="Marron Cognac" 
+                     class="bag-image"
+                     style="filter: sepia(1) saturate(1.8) hue-rotate(15deg) brightness(0.75) contrast(1.3);">
+            </div>
+            <div class="method-info">Filtre CSS optimisé pour les tons chauds</div>
+            <div class="status filter">FILTRE CSS</div>
+        </div>
+
+        <!-- Noir Élégant -->
+        <div class="color-card">
+            <div class="color-name">Noir Élégant</div>
+            <div class="color-reference" style="background-color: #2C2C2C;">#2C2C2C</div>
+            <div class="test-container">
+                <img src="/images/bag-parts/bag-flap.png" 
+                     alt="Noir Élégant" 
+                     class="bag-image"
+                     style="filter: grayscale(1) brightness(0.18) contrast(2.8);">
+            </div>
+            <div class="method-info">Conversion en niveaux de gris avec contraste élevé</div>
+            <div class="status filter">FILTRE CSS</div>
+        </div>
+
+        <!-- Beige Nude - CORRIGÉ -->
+        <div class="color-card">
+            <div class="color-name">🎯 Beige Nude</div>
+            <div class="color-reference" style="background-color: #D4A574;">#D4A574</div>
+            <div class="test-container">
+                <div class="overlay-container">
+                    <img src="/images/bag-parts/bag-flap.png" 
+                         alt="Beige Nude" 
+                         class="bag-image">
+                </div>
+            </div>
+            <div class="method-info">Overlay direct avec mix-blend-mode multiply - PROBLÈME RÉSOLU</div>
+            <div class="status overlay">OVERLAY CORRIGÉ</div>
+        </div>
+
+        <!-- Rose Poudré -->
+        <div class="color-card">
+            <div class="color-name">Rose Poudré</div>
+            <div class="color-reference" style="background-color: #F4E6E1;">#F4E6E1</div>
+            <div class="test-container">
+                <div class="overlay-container">
+                    <img src="/images/bag-parts/bag-flap.png" 
+                         alt="Rose Poudré" 
+                         class="bag-image">
+                </div>
+            </div>
+            <div class="method-info">Overlay doux pour les tons pastel délicats</div>
+            <div class="status overlay">OVERLAY OPTIMISÉ</div>
+        </div>
+
+        <!-- Bordeaux -->
+        <div class="color-card">
+            <div class="color-name">Bordeaux</div>
+            <div class="color-reference" style="background-color: #8B1538;">#8B1538</div>
+            <div class="test-container">
+                <img src="/images/bag-parts/bag-flap.png" 
+                     alt="Bordeaux" 
+                     class="bag-image"
+                     style="filter: sepia(1) saturate(2.5) hue-rotate(330deg) brightness(0.65) contrast(1.4);">
+            </div>
+            <div class="method-info">Filtre CSS avec rotation de teinte vers le rouge</div>
+            <div class="status filter">FILTRE CSS</div>
+        </div>
+
+        <!-- Bleu Marine -->
+        <div class="color-card">
+            <div class="color-name">Bleu Marine</div>
+            <div class="color-reference" style="background-color: #1E3A8A;">#1E3A8A</div>
+            <div class="test-container">
+                <img src="/images/bag-parts/bag-flap.png" 
+                     alt="Bleu Marine" 
+                     class="bag-image"
+                     style="filter: sepia(1) saturate(2) hue-rotate(200deg) brightness(0.55) contrast(1.6);">
+            </div>
+            <div class="method-info">Filtre CSS avec rotation vers les tons bleus</div>
+            <div class="status filter">FILTRE CSS</div>
+        </div>
+    </div>
+
+    <div class="summary">
+        <h2>🎯 Résumé de la Correction</h2>
+        <p>Le nouveau système hybride résout le problème de coloration des images PNG à base blanche</p>
+        
+        <div class="summary-grid">
+            <div class="summary-item">
+                <h4>💚 Problème Résolu</h4>
+                <p>Le beige nude #D4A574 s'affiche maintenant correctement grâce au système d'overlay multiply</p>
+            </div>
+            
+            <div class="summary-item">
+                <h4>🎨 Méthode Hybride</h4>
+                <p>Combinaison intelligente de filtres CSS et d'overlays selon la couleur cible</p>
+            </div>
+            
+            <div class="summary-item">
+                <h4>⚡ Performance Optimisée</h4>
+                <p>Transitions fluides et rendu en temps réel pour toutes les couleurs</p>
+            </div>
+            
+            <div class="summary-item">
+                <h4>📱 Compatible</h4>
+                <p>Fonctionne sur tous les navigateurs modernes avec mix-blend-mode</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Appliquer les overlays pour les couleurs qui en ont besoin
+        document.addEventListener('DOMContentLoaded', function() {
+            // Beige Nude - overlay multiply
+            const beigeContainer = document.querySelectorAll('.overlay-container')[0];
+            if (beigeContainer) {
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #D4A574;
+                    mix-blend-mode: multiply;
+                    opacity: 0.75;
+                    pointer-events: none;
+                `;
+                beigeContainer.appendChild(overlay);
+            }
+
+            // Rose Poudré - overlay multiply
+            const roseContainer = document.querySelectorAll('.overlay-container')[1];
+            if (roseContainer) {
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #F4E6E1;
+                    mix-blend-mode: multiply;
+                    opacity: 0.7;
+                    pointer-events: none;
+                `;
+                roseContainer.appendChild(overlay);
+            }
+        });
+    </script>
+</body>
+</html>

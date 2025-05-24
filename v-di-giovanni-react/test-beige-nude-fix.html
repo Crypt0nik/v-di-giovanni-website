@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Correction Beige Nude - PNG Configurateur</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #d4a574;
+            margin: 0 0 10px 0;
+            font-size: 2rem;
+        }
+
+        .header p {
+            color: #666;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .test-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .test-card h3 {
+            margin: 0 0 15px 0;
+            color: #2c2c2c;
+            font-size: 1.2rem;
+        }
+
+        .color-reference {
+            width: 100%;
+            height: 60px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2c2c2c;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        }
+
+        .image-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 15px;
+            border: 2px solid #e5e5e5;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .test-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: filter 0.3s ease;
+        }
+
+        .overlay-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .overlay-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .description {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .color-value {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin: 5px 0;
+            display: inline-block;
+        }
+
+        .problematic {
+            border: 2px solid #dc3545;
+        }
+
+        .good {
+            border: 2px solid #28a745;
+        }
+
+        .new-method {
+            border: 2px solid #007bff;
+        }
+
+        .comparison-section {
+            margin-top: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .comparison-section h2 {
+            text-align: center;
+            color: #d4a574;
+            margin-bottom: 20px;
+        }
+
+        .side-by-side {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .side-by-side {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎨 Test Correction Beige Nude</h1>
+        <p>Diagnostic et correction du problème de couleur beige nude #D4A574</p>
+    </div>
+
+    <div class="test-grid">
+        <!-- Couleur de référence -->
+        <div class="test-card good">
+            <h3>🎯 Couleur Cible</h3>
+            <div class="color-reference" style="background-color: #D4A574;">
+                Beige Nude #D4A574
+            </div>
+            <div class="color-value">#D4A574</div>
+            <div class="description">
+                C'est la couleur exacte que nous voulons obtenir sur nos images PNG blanches.
+            </div>
+        </div>
+
+        <!-- Filtre CSS actuel (problématique) -->
+        <div class="test-card problematic">
+            <h3>❌ Filtre CSS Actuel</h3>
+            <div class="image-container">
+                <img src="/images/bag-parts/bag-flap.png" 
+                     alt="Test avec filtre CSS" 
+                     class="test-image"
+                     style="filter: sepia(0.4) saturate(0.8) brightness(1.05);">
+            </div>
+            <div class="color-value">sepia(0.4) saturate(0.8) brightness(1.05)</div>
+            <div class="description">
+                Problème : produit une couleur jaunâtre/verdâtre au lieu du beige nude.
+            </div>
+        </div>
+
+        <!-- Nouvelle méthode : overlay avec multiply -->
+        <div class="test-card new-method">
+            <h3>🔄 Overlay Multiply</h3>
+            <div class="image-container">
+                <div class="overlay-container">
+                    <img src="/images/bag-parts/bag-flap.png" 
+                         alt="Test avec overlay" 
+                         class="test-image">
+                </div>
+            </div>
+            <div class="color-value">background: #D4A574 + mix-blend-mode: multiply</div>
+            <div class="description">
+                Test avec overlay de couleur directe et mode de fusion multiply.
+            </div>
+        </div>
+
+        <!-- Nouvelle méthode : overlay avec color -->
+        <div class="test-card new-method">
+            <h3>🔄 Overlay Color</h3>
+            <div class="image-container">
+                <div class="overlay-container">
+                    <img src="/images/bag-parts/bag-flap.png" 
+                         alt="Test avec overlay color" 
+                         class="test-image">
+                </div>
+            </div>
+            <div class="color-value">background: #D4A574 + mix-blend-mode: color</div>
+            <div class="description">
+                Test avec overlay de couleur et mode de fusion color.
+            </div>
+        </div>
+
+        <!-- Méthode combinée -->
+        <div class="test-card new-method">
+            <h3>🎯 Méthode Combinée</h3>
+            <div class="image-container">
+                <div class="overlay-container">
+                    <img src="/images/bag-parts/bag-flap.png" 
+                         alt="Test combiné" 
+                         class="test-image"
+                         style="filter: sepia(0.1) saturate(0.5);">
+                </div>
+            </div>
+            <div class="color-value">Filtre léger + overlay #D4A574</div>
+            <div class="description">
+                Combinaison d'un filtre CSS léger et d'un overlay couleur.
+            </div>
+        </div>
+
+        <!-- Test avec hue-rotate -->
+        <div class="test-card new-method">
+            <h3>🌈 Hue Rotate</h3>
+            <div class="image-container">
+                <img src="/images/bag-parts/bag-flap.png" 
+                     alt="Test hue rotate" 
+                     class="test-image"
+                     style="filter: sepia(1) saturate(0.8) hue-rotate(20deg) brightness(0.85);">
+            </div>
+            <div class="color-value">sepia(1) saturate(0.8) hue-rotate(20deg) brightness(0.85)</div>
+            <div class="description">
+                Test avec rotation de teinte pour ajuster vers le beige.
+            </div>
+        </div>
+    </div>
+
+    <div class="comparison-section">
+        <h2>🔬 Analyse Comparative</h2>
+        <div class="side-by-side">
+            <div>
+                <h4>Problème Identifié :</h4>
+                <ul>
+                    <li>Les filtres CSS sepia() sur base blanche créent des tons jaunâtres</li>
+                    <li>La couleur #D4A574 nécessite une approche spéciale</li>
+                    <li>Le filtre actuel dévie trop vers le vert-jaune</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Solutions Testées :</h4>
+                <ul>
+                    <li>Overlay direct avec mix-blend-mode</li>
+                    <li>Combinaison filtre léger + overlay</li>
+                    <li>Ajustement précis avec hue-rotate</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Appliquer les overlays dynamiquement
+        document.addEventListener('DOMContentLoaded', function() {
+            // Overlay Multiply
+            const multiplyContainer = document.querySelectorAll('.overlay-container')[0];
+            if (multiplyContainer) {
+                multiplyContainer.style.cssText += `
+                    &::after {
+                        background-color: #D4A574;
+                        mix-blend-mode: multiply;
+                        opacity: 0.7;
+                    }
+                `;
+                multiplyContainer.innerHTML += '<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #D4A574; mix-blend-mode: multiply; opacity: 0.7; pointer-events: none;"></div>';
+            }
+
+            // Overlay Color
+            const colorContainer = document.querySelectorAll('.overlay-container')[1];
+            if (colorContainer) {
+                colorContainer.innerHTML += '<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #D4A574; mix-blend-mode: color; opacity: 0.8; pointer-events: none;"></div>';
+            }
+
+            // Overlay Combiné
+            const combinedContainer = document.querySelectorAll('.overlay-container')[2];
+            if (combinedContainer) {
+                combinedContainer.innerHTML += '<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #D4A574; mix-blend-mode: multiply; opacity: 0.6; pointer-events: none;"></div>';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Corps principal du sac -->
+  <rect x="75" y="120" width="150" height="120" fill="#8B4513" rx="15" ry="15" stroke="#654321" stroke-width="2"/>
+  
+  <!-- Base du sac -->
+  <ellipse cx="150" cy="240" rx="75" ry="20" fill="#654321"/>
+  
+  <!-- Détails de couture -->
+  <rect x="80" y="125" width="140" height="2" fill="#654321" opacity="0.7"/>
+  <rect x="80" y="235" width="140" height="2" fill="#654321" opacity="0.7"/>
+  
+  <!-- Côtés du sac -->
+  <path d="M 75 140 Q 70 160 75 180 Q 70 200 75 220" stroke="#654321" stroke-width="1" fill="none"/>
+  <path d="M 225 140 Q 230 160 225 180 Q 230 200 225 220" stroke="#654321" stroke-width="1" fill="none"/>
+</svg>

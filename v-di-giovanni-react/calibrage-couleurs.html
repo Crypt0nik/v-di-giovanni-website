@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calibrage Couleurs - Marron Cognac & Noir Élégant</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #d4a574;
+            margin: 0 0 10px 0;
+            font-size: 2rem;
+        }
+
+        .color-section {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .color-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #2c2c2c;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .test-card {
+            border: 2px solid #e5e5e5;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            background: #fafafa;
+        }
+
+        .reference {
+            border-color: #28a745;
+            background: #f8fff8;
+        }
+
+        .current {
+            border-color: #dc3545;
+            background: #fff8f8;
+        }
+
+        .improved {
+            border-color: #007bff;
+            background: #f8fcff;
+        }
+
+        .color-reference {
+            width: 100%;
+            height: 50px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            font-size: 0.9rem;
+        }
+
+        .test-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 15px;
+            border: 2px solid #e5e5e5;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+
+        .bag-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .overlay-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .filter-info {
+            font-size: 0.8rem;
+            color: #666;
+            background: #f1f1f1;
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin: 8px 0;
+            font-family: monospace;
+            line-height: 1.2;
+        }
+
+        .status {
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .status.reference { background: #d4edda; color: #155724; }
+        .status.current { background: #f8d7da; color: #721c24; }
+        .status.improved { background: #cce7ff; color: #004085; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎨 Calibrage Marron Cognac & Noir Élégant</h1>
+        <p>Test et optimisation des couleurs problématiques</p>
+    </div>
+
+    <!-- MARRON COGNAC -->
+    <div class="color-section">
+        <div class="color-title">🤎 Marron Cognac #8B4513</div>
+        <div class="test-grid">
+            <!-- Référence -->
+            <div class="test-card reference">
+                <h4>🎯 Couleur Cible</h4>
+                <div class="color-reference" style="background-color: #8B4513;">Marron Cognac</div>
+                <div class="status reference">RÉFÉRENCE</div>
+            </div>
+
+            <!-- Actuel -->
+            <div class="test-card current">
+                <h4>❌ Filtre Actuel</h4>
+                <div class="test-container">
+                    <img src="/images/bag-parts/bag-flap.png" 
+                         alt="Marron actuel" 
+                         class="bag-image"
+                         style="filter: sepia(1) saturate(1.8) hue-rotate(15deg) brightness(0.75) contrast(1.3);">
+                </div>
+                <div class="filter-info">sepia(1) saturate(1.8) hue-rotate(15deg) brightness(0.75) contrast(1.3)</div>
+                <div class="status current">TROP CLAIR</div>
+            </div>
+
+            <!-- Amélioré v1 -->
+            <div class="test-card improved">
+                <h4>🔧 Option 1 - Plus foncé</h4>
+                <div class="test-container">
+                    <img src="/images/bag-parts/bag-flap.png" 
+                         alt="Marron v1" 
+                         class="bag-image"
+                         style="filter: sepia(1) saturate(2.2) hue-rotate(10deg) brightness(0.55) contrast(1.6);">
+                </div>
+                <div class="filter-info">sepia(1) saturate(2.2) hue-rotate(10deg) brightness(0.55) contrast(1.6)</div>
+                <div class="status improved">TEST 1</div>
+            </div>
+
+            <!-- Amélioré v2 -->
+            <div class="test-card improved">
+                <h4>🔧 Option 2 - Overlay</h4>
+                <div class="test-container">
+                    <div class="overlay-container" id="marron-overlay">
+                        <img src="/images/bag-parts/bag-flap.png" 
+                             alt="Marron v2" 
+                             class="bag-image">
+                    </div>
+                </div>
+                <div class="filter-info">Overlay #8B4513 multiply 0.8</div>
+                <div class="status improved">TEST 2</div>
+            </div>
+
+            <!-- Amélioré v3 -->
+            <div class="test-card improved">
+                <h4>🔧 Option 3 - Hybride</h4>
+                <div class="test-container">
+                    <div class="overlay-container" id="marron-hybrid">
+                        <img src="/images/bag-parts/bag-flap.png" 
+                             alt="Marron v3" 
+                             class="bag-image"
+                             style="filter: sepia(0.8) saturate(1.5) hue-rotate(8deg) brightness(0.9);">
+                    </div>
+                </div>
+                <div class="filter-info">Filtre léger + overlay #8B4513</div>
+                <div class="status improved">TEST 3</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOIR ÉLÉGANT -->
+    <div class="color-section">
+        <div class="color-title">⚫ Noir Élégant → Gris Foncé</div>
+        <div class="test-grid">
+            <!-- Référence originale -->
+            <div class="test-card reference">
+                <h4>🎯 Noir Original</h4>
+                <div class="color-reference" style="background-color: #2C2C2C;">Noir #2C2C2C</div>
+                <div class="status reference">ORIGINAL</div>
+            </div>
+
+            <!-- Gris foncé cible -->
+            <div class="test-card reference">
+                <h4>🎯 Gris Foncé Cible</h4>
+                <div class="color-reference" style="background-color: #4A4A4A;">Gris Foncé #4A4A4A</div>
+                <div class="status reference">NOUVEAU CIBLE</div>
+            </div>
+
+            <!-- Actuel -->
+            <div class="test-card current">
+                <h4>❌ Filtre Actuel</h4>
+                <div class="test-container">
+                    <img src="/images/bag-parts/bag-flap.png" 
+                         alt="Noir actuel" 
+                         class="bag-image"
+                         style="filter: grayscale(1) brightness(0.18) contrast(2.8);">
+                </div>
+                <div class="filter-info">grayscale(1) brightness(0.18) contrast(2.8)</div>
+                <div class="status current">TROP NOIR</div>
+            </div>
+
+            <!-- Gris foncé v1 -->
+            <div class="test-card improved">
+                <h4>🔧 Gris Foncé v1</h4>
+                <div class="test-container">
+                    <img src="/images/bag-parts/bag-flap.png" 
+                         alt="Gris v1" 
+                         class="bag-image"
+                         style="filter: grayscale(1) brightness(0.35) contrast(1.8);">
+                </div>
+                <div class="filter-info">grayscale(1) brightness(0.35) contrast(1.8)</div>
+                <div class="status improved">TEST 1</div>
+            </div>
+
+            <!-- Gris foncé v2 -->
+            <div class="test-card improved">
+                <h4>🔧 Gris Foncé v2</h4>
+                <div class="test-container">
+                    <div class="overlay-container" id="gris-overlay">
+                        <img src="/images/bag-parts/bag-flap.png" 
+                             alt="Gris v2" 
+                             class="bag-image">
+                    </div>
+                </div>
+                <div class="filter-info">Overlay #4A4A4A multiply 0.85</div>
+                <div class="status improved">TEST 2</div>
+            </div>
+
+            <!-- Gris foncé v3 -->
+            <div class="test-card improved">
+                <h4>🔧 Gris Foncé v3</h4>
+                <div class="test-container">
+                    <img src="/images/bag-parts/bag-flap.png" 
+                         alt="Gris v3" 
+                         class="bag-image"
+                         style="filter: grayscale(1) brightness(0.42) contrast(1.5) saturate(0.1);">
+                </div>
+                <div class="filter-info">grayscale(1) brightness(0.42) contrast(1.5) saturate(0.1)</div>
+                <div class="status improved">TEST 3</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Overlay pour marron cognac v2
+            const marronOverlay = document.getElementById('marron-overlay');
+            if (marronOverlay) {
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #8B4513;
+                    mix-blend-mode: multiply;
+                    opacity: 0.8;
+                    pointer-events: none;
+                `;
+                marronOverlay.appendChild(overlay);
+            }
+
+            // Overlay hybride pour marron cognac v3
+            const marronHybrid = document.getElementById('marron-hybrid');
+            if (marronHybrid) {
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #8B4513;
+                    mix-blend-mode: multiply;
+                    opacity: 0.6;
+                    pointer-events: none;
+                `;
+                marronHybrid.appendChild(overlay);
+            }
+
+            // Overlay pour gris foncé
+            const grisOverlay = document.getElementById('gris-overlay');
+            if (grisOverlay) {
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #4A4A4A;
+                    mix-blend-mode: multiply;
+                    opacity: 0.85;
+                    pointer-events: none;
+                `;
+                grisOverlay.appendChild(overlay);
+            }
+        });
+    </script>
+</body>
+</html>

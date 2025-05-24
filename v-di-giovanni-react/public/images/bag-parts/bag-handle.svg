@@ -1,0 +1,24 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Poignées du sac -->
+  <!-- Poignée gauche -->
+  <path d="M 100 90 Q 85 60 100 30 Q 115 25 130 30 Q 145 60 130 90" 
+        fill="none" stroke="#654321" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Poignée droite -->
+  <path d="M 170 90 Q 155 60 170 30 Q 185 25 200 30 Q 215 60 200 90" 
+        fill="none" stroke="#654321" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Attaches des poignées au sac -->
+  <rect x="115" y="85" width="15" height="15" fill="#8B4513" rx="3" ry="3"/>
+  <rect x="170" y="85" width="15" height="15" fill="#8B4513" rx="3" ry="3"/>
+  
+  <!-- Rivets métalliques -->
+  <circle cx="122.5" cy="92.5" r="2.5" fill="#C0C0C0"/>
+  <circle cx="177.5" cy="92.5" r="2.5" fill="#C0C0C0"/>
+  
+  <!-- Détails de couture sur les attaches -->
+  <rect x="117" y="87" width="11" height="1" fill="#654321" opacity="0.7"/>
+  <rect x="117" y="96" width="11" height="1" fill="#654321" opacity="0.7"/>
+  <rect x="172" y="87" width="11" height="1" fill="#654321" opacity="0.7"/>
+  <rect x="172" y="96" width="11" height="1" fill="#654321" opacity="0.7"/>
+</svg>

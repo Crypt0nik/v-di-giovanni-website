@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { ShoppingBag } from 'lucide-react';
 import { Container, Button } from '../styles/GlobalStyles';
+import HeroBag3DNew from './HeroBag3DNew';
 
 const HeroSection = styled.section`
   height: 100vh;
@@ -69,32 +69,6 @@ const HeroImageContainer = styled.div`
   }
 `;
 
-const HeroBagIcon = styled(motion.div)`
-  width: 300px;
-  height: 300px;
-  background: var(--white);
-  border-radius: 20px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 6rem;
-  color: var(--primary-color);
-  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.1));
-
-  @media (max-width: 768px) {
-    width: 250px;
-    height: 250px;
-    font-size: 4rem;
-  }
-
-  @media (max-width: 480px) {
-    width: 200px;
-    height: 200px;
-    font-size: 3rem;
-  }
-`;
-
 interface HeroProps {
   onNavigateToConfigurator: () => void;
 }
@@ -125,14 +99,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigateToConfigurator }) => {
           </HeroText>
 
           <HeroImageContainer>
-            <HeroBagIcon
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              whileHover={{ scale: 1.05, rotate: 5 }}
-            >
-              <ShoppingBag />
-            </HeroBagIcon>
+            <HeroBag3DNew />
           </HeroImageContainer>
         </HeroContent>
       </Container>

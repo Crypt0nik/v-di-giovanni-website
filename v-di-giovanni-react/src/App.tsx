@@ -8,6 +8,7 @@ import About from './components/About';
 import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import TestBagViewer from './TestBagViewer';
 
 const theme = {
   colors: {
@@ -25,12 +26,25 @@ const theme = {
 };
 
 function App() {
+  // Vérifier si on est sur la page de test
+  const isTestPage = window.location.pathname === '/test' || window.location.search.includes('test=true');
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  // Si on est sur la page de test, afficher seulement le testeur
+  if (isTestPage) {
+    return (
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <TestBagViewer />
+      </ThemeProvider>
+    );
+  }
 
   return (
     <ThemeProvider theme={theme}>
