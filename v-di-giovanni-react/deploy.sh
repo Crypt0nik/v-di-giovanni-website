@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Script de déploiement pour V. Di Giovanni React App
-# Ce script automatise le processus de build et de déploiement
+# Script de déploiement automatique pour V. di Giovanni
+# Ce script compile, commite et déploie automatiquement sur Vercel
 
-echo "🚀 Démarrage du processus de déploiement..."
+echo "🚀 Démarrage du déploiement V. di Giovanni..."
 
 # Couleurs pour les messages
 GREEN='\033[0;32m'
