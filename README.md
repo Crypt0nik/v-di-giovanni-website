@@ -110,23 +110,31 @@ v-di-giovanni-website/
 ├── README.md                    # Documentation principale
 ├── v-di-giovanni-react/         # Application React
 │   ├── public/
-│   │   └── vite.svg
+│   │   ├── images/bag-parts/    # Système PNG optimisé
+│   │   │   ├── main-colors/     # 3 couleurs principales
+│   │   │   │   ├── noir/        # Corps et anses noir
+│   │   │   │   ├── blanc/       # Corps et anses blanc
+│   │   │   │   └── marron-cognac/ # Corps et anses marron
+│   │   │   └── colors/          # 6 couleurs rabat
+│   │   │       ├── beige-nude/
+│   │   │       ├── bleu-tiffany/
+│   │   │       ├── bordeaux/
+│   │   │       ├── gris-fonce/
+│   │   │       ├── marron-cognac/
+│   │   │       └── rose-poudre/
+│   │   └── models/              # Assets 3D (legacy)
 │   ├── src/
 │   │   ├── components/          # Composants React
-│   │   │   ├── Header.tsx       # Navigation responsive
-│   │   │   ├── Hero.tsx         # Section hero animée
-│   │   │   ├── Products.tsx     # Catalogue produits
-│   │   │   ├── Configurator.tsx # Configurateur interactif
+│   │   │   ├── Hero.tsx         # Section hero avec 3D optionnel
+│   │   │   ├── Configurator.tsx # Configurateur PNG principal
+│   │   │   ├── BagViewer3D.tsx  # Visualiseur PNG temps réel
 │   │   │   ├── About.tsx        # Section à propos
-│   │   │   ├── Testimonials.tsx # Témoignages clients
-│   │   │   ├── Contact.tsx      # Formulaire de contact
-│   │   │   ├── Footer.tsx       # Pied de page
-│   │   │   └── LoadingScreen.tsx # Écran de chargement
-│   │   ├── styles/
-│   │   │   └── GlobalStyles.ts  # Styles globaux et thème
+│   │   │   ├── Contact.tsx      # Formulaire de contact simplifié
+│   │   │   └── Footer.tsx       # Pied de page
+│   │   ├── types/
+│   │   │   └── bag.ts           # Types TypeScript pour configurateur
 │   │   ├── App.tsx              # Composant principal
-│   │   ├── main.tsx            # Point d'entrée React
-│   │   └── styled.d.ts         # Définitions TypeScript
+│   │   └── main.tsx            # Point d'entrée React
 │   ├── package.json            # Dépendances et scripts
 │   ├── tsconfig.json           # Configuration TypeScript  
 │   ├── vite.config.ts          # Configuration Vite
@@ -142,37 +150,45 @@ v-di-giovanni-website/
 - **TypeScript Interfaces** : Définitions de types pour les produits
 - **Composants Modulaires** : Architecture réutilisable et maintenable
 
-### Onglet "Sac Principal"
-- Choix de couleur (5 options) avec preview en temps réel
-- Sélection de matériau (Cuir Premium, Toile Bio, Cuir Végan, Cuir Végétal)
-- Impact sur le prix selon le matériau choisi
-- Animation de transition entre les options
+### Système PNG Optimisé 🎨
+- **3 Couleurs principales** : Noir, Blanc, Marron Cognac
+- **6 Couleurs d'accent pour rabat** : Beige Nude, Bleu Tiffany, Bordeaux, Gris Foncé, Marron Cognac, Rose Poudré
+- **Superposition d'images PNG** : Rendu temps réel sans Three.js
+- **Préchargement intelligent** : Performance optimisée
+- **Architecture modulaire** : `/public/images/bag-parts/main-colors/` et `/colors/`
 
-### Onglet "Anse"
-- 4 types d'anses (Classique, Chaîne, Corde, Cuir Tressé)
-- Personnalisation couleur et matériau avec preview
-- Ajustement automatique du prix
-- Animations hover et focus
+### Interface Configurateur
+- **Sélection couleur principale** : Corps et anses du sac
+- **Personnalisation rabat** : 6 options couleur avec preview instantané
+- **Animations CSS fluides** : Transitions entre configurations
+- **Responsive design** : Optimisé mobile-first
+- **State management React** : Gestion d'état centralisée
 
-### Onglet "Rabat"  
-- 4 styles (Minimaliste, Matelassé, Texturé, Embossé)
-- Options de couleur et matériau spécifiques
-- Prévisualisation en temps réel avec styled-components
-- Validation des combinaisons possibles
+### Fonctionnalités Prochaines (Roadmap)
+- [ ] **Boutons Dimension** : Affichage des mesures exactes du sac
+- [ ] **Boutons Comparateur** : Comparaison entre configurations
+- [ ] **Galerie réalisations** : Showcase des créations clients
+- [ ] **Système commande** : Intégration e-commerce
 
 ## 🌟 Optimisations & Performance
 
+### Système PNG Avancé
+- **Superposition temps réel** : Images PNG optimisées avec CSS overlay
+- **Préchargement intelligent** : Toutes les images principales preloadées
+- **Transitions fluides** : CSS transforms pour changements instantanés
+- **Fallback robuste** : Système stable sans dépendances 3D lourdes
+
+### Performance React
+- **Bundle optimisé** : Vite build avec tree shaking
+- **Images optimisées** : PNG compressés pour web
+- **State minimal** : Gestion d'état efficace sans Redux
+- **Rendu conditionnel** : Composants optimisés pour re-renders
+
 ### SEO & Accessibilité
-- **Meta tags** optimisés avec mots-clés pertinents
+- **Meta tags** optimisés avec mots-clés maroquinerie
 - **Structure sémantique** HTML5 avec React
 - **Accessibilité WCAG** : Navigation clavier, ARIA labels
-- **Performance** : Code splitting et lazy loading
-
-### Optimisations React
-- **React.memo** : Optimisation des re-renders
-- **useMemo & useCallback** : Performance des calculs
-- **Vite Build** : Bundle optimisé pour la production
-- **Tree Shaking** : Élimination du code non utilisé
+- **Performance Lighthouse** : Score 95+ visé
 
 ## 📱 Responsivité
 
@@ -232,23 +248,46 @@ Les couleurs et styles sont configurables dans `src/styles/GlobalStyles.ts` :
 
 ## 📧 Contact & Informations
 
+- **Site Web En Ligne** : [https://v-di-giovanni-osmumtzgd-arthurs-projects-a2b80d46.vercel.app](https://v-di-giovanni-osmumtzgd-arthurs-projects-a2b80d46.vercel.app)
+- **Repository GitHub** : [https://github.com/Crypt0nik/v-di-giovanni-website](https://github.com/Crypt0nik/v-di-giovanni-website)
 - **Email** : contact@vdigiovanni-bags.fr
 - **Adresse** : 15 Rue de la Paix, 75001 Paris, France
 - **Téléphone** : +33 1 42 36 85 47
-- **Site Web** : [v-di-giovanni.vercel.app](https://v-di-giovanni.vercel.app)
 
 ## 🚀 Déploiement
 
-### Vercel (Recommandé)
+### ✅ Production Actuelle
+**Site en ligne** : [https://v-di-giovanni-osmumtzgd-arthurs-projects-a2b80d46.vercel.app](https://v-di-giovanni-osmumtzgd-arthurs-projects-a2b80d46.vercel.app)
+
+### Vercel (Configuré)
 Le projet est pré-configuré pour Vercel avec `vercel.json` :
 
 ```bash
 # Installation Vercel CLI
 npm i -g vercel
 
-# Déploiement
+# Déploiement depuis le dossier React
 cd v-di-giovanni-react
 vercel --prod
+```
+
+### Workflow de Mise à Jour
+```bash
+# 1. Développement local
+cd v-di-giovanni-react
+npm run dev
+
+# 2. Build et test
+npm run build
+npm run preview
+
+# 3. Commit et push
+git add .
+git commit -m "feat: nouvelle fonctionnalité"
+git push origin main
+
+# 4. Déploiement automatique Vercel
+# (ou manuel avec vercel --prod)
 ```
 
 ### Autres plateformes
@@ -267,20 +306,41 @@ Le build statique fonctionne sur toute plateforme supportant les SPA :
 
 ## 📝 Roadmap
 
+### ✅ Complété (Mai 2025)
+- [x] **Configurateur PNG** : Système stable avec 3 couleurs principales
+- [x] **6 Couleurs rabat** : Personnalisation complète rabat
+- [x] **Déploiement Vercel** : Site en ligne et performances optimisées
+- [x] **Documentation complète** : README détaillé et guide technique
+
+### 🔄 En Cours / Prochaines Étapes
+- [ ] **Boutons Dimension** : Affichage mesures exactes (H×L×P)
+- [ ] **Boutons Comparateur** : Vue côte-à-côte configurations
+- [ ] **Optimisation mobile** : Interface tactile perfectionnée
+- [ ] **Analytics** : Suivi interactions utilisateur
+
+### 🚀 Fonctionnalités Futures
 - [ ] **Mode sombre** avec toggle utilisateur
 - [ ] **PWA** : Service Worker et installation
 - [ ] **Panier** : Gestion des commandes avec Local Storage
 - [ ] **API Integration** : Backend pour les commandes
 - [ ] **Multi-langues** : Support i18n (FR/EN)
 - [ ] **Tests** : Jest + React Testing Library
-- [ ] **Storybook** : Documentation des composants
+- [ ] **Galerie client** : Showcase réalisations personnalisées
 
 ## 📊 Métriques Performance
 
-- **Lighthouse Score** : 95+ (Performance, Accessibilité, SEO)
-- **Bundle Size** : < 150kb gzipped
-- **First Contentful Paint** : < 1.5s
+### État Actuel (Mai 2025)
+- **Site En Ligne** : ✅ Déployé sur Vercel
+- **Configurateur Fonctionnel** : ✅ 3 couleurs principales + 6 couleurs rabat
+- **Performance Web** : PNG optimisé (pas de Three.js lourd)
+- **Bundle Size** : ~200kb (optimisé pour images PNG)
+- **Mobile Ready** : Interface responsive complète
+
+### Objectifs Techniques
+- **Lighthouse Score** : 90+ (Performance, Accessibilité, SEO)
+- **First Contentful Paint** : < 2s
 - **Time to Interactive** : < 3s
+- **Images Optimisées** : Compression PNG avancée
 
 ## 📄 Licence
 
