@@ -42,14 +42,98 @@ const BagPreview = styled.div`
   }
 `;
 
-const PriceDisplay = styled.div`
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
+const PriceContainer = styled.div`
+  background: var(--white);
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--primary-color);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 165, 116, 0.1), transparent);
+    animation: shimmer 3s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
 
   @media (max-width: 768px) {
-    font-size: 1.5rem;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+`;
+
+const PriceDisplay = styled.div`
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+`;
+
+const PriceLabel = styled.p`
+  color: var(--text-light);
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+`;
+
+const PriceBreakdown = styled.div`
+  background: rgba(212, 165, 116, 0.08);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+  border: 1px solid rgba(212, 165, 116, 0.2);
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 768px) {
+    padding: 0.8rem;
+  }
+`;
+
+const BreakdownItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+  font-size: 0.85rem;
+
+  &:last-child {
+    margin-bottom: 0;
+    font-weight: 600;
+    border-top: 1px solid rgba(212, 165, 116, 0.3);
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .price-change {
+    color: #16a34a;
+    font-weight: 600;
+    
+    &.negative {
+      color: #dc2626;
+    }
   }
 `;
 
@@ -163,16 +247,26 @@ const ColorSwatch = styled.button<{ color: string; active: boolean }>`
   height: 40px;
   border-radius: 50%;
   cursor: pointer;
-  border: 3px solid ${props => props.active ? 'var(--primary-color)' : 'transparent'};
+  border: 3px solid ${props => {
+    if (props.active) return 'var(--primary-color)';
+    if (props.color.toLowerCase() === '#ffffff' || props.color.toLowerCase() === 'white') return '#e2e8f0';
+    return 'transparent';
+  }};
   background: ${props => props.color};
   transition: all 0.3s ease;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   position: relative;
+  box-shadow: ${props => 
+    (props.color.toLowerCase() === '#ffffff' || props.color.toLowerCase() === 'white') 
+      ? '0 2px 8px rgba(0,0,0,0.1)' 
+      : 'none'
+  };
 
   &:hover {
     border-color: var(--primary-color);
     transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
 
   ${props => props.active && `
@@ -182,10 +276,16 @@ const ColorSwatch = styled.button<{ color: string; active: boolean }>`
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      color: white;
+      color: ${props.color.toLowerCase() === '#ffffff' || props.color.toLowerCase() === 'white' 
+        ? '#2563eb' 
+        : 'white'
+      };
       font-weight: bold;
       font-size: 0.8rem;
-      text-shadow: 0 0 3px rgba(0,0,0,0.8);
+      text-shadow: ${props.color.toLowerCase() === '#ffffff' || props.color.toLowerCase() === 'white' 
+        ? 'none' 
+        : '0 0 3px rgba(0,0,0,0.8)'
+      };
     }
   `}
 
@@ -277,21 +377,29 @@ interface ConfigurationState {
 const Configurator: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'body' | 'handle' | 'flap'>('body');
   const [config, setConfig] = useState<ConfigurationState>({
-    bodyColor: '#8B4513',
+    bodyColor: '#8B4513', // Marron Cognac - couleur valide pour le sac principal
     bodyMaterial: 'cuir',
-    handleColor: '#654321',
+    handleColor: '#8B4513', // Marron Cognac - couleur valide pour l'anse
     handleType: 'cuir',
-    flapColor: '#A0522D',
+    flapColor: '#8B4513', // Marron Cognac - couleur valide pour le rabat
     flapMaterial: 'cuir'
   });
 
-  const colors = [
+  // Couleurs pour le sac principal et l'anse (3 couleurs seulement)
+  const mainColors = [
+    { name: 'Noir', value: '#000000', price: 0 },
     { name: 'Marron Cognac', value: '#8B4513', price: 0 },
-    { name: 'Noir Élégant', value: '#2C2C2C', price: 0 },
+    { name: 'Blanc', value: '#FFFFFF', price: 0 }
+  ];
+
+  // Couleurs pour le rabat (couleurs avec images PNG dédiées)
+  const flapColors = [
+    { name: 'Marron Cognac', value: '#8B4513', price: 0 },
+    { name: 'Gris Foncé', value: '#2C2C2C', price: 0 },
     { name: 'Beige Nude', value: '#D4A574', price: 0 },
     { name: 'Rose Poudré', value: '#F4E6E1', price: 25 },
     { name: 'Bordeaux', value: '#8B1538', price: 25 },
-    { name: 'Bleu Marine', value: '#1E3A8A', price: 25 }
+    { name: 'Bleu Tiffany', value: '#81D4E6', price: 25 }
   ];
 
   const materials = [
@@ -310,13 +418,52 @@ const Configurator: React.FC = () => {
 
   const calculatePrice = () => {
     const basePrice = 299;
-    const bodyColorPrice = colors.find(c => c.value === config.bodyColor)?.price || 0;
+    const bodyColorPrice = mainColors.find(c => c.value === config.bodyColor)?.price || 0;
     const bodyMaterialPrice = materials.find(m => m.value === config.bodyMaterial)?.price || 0;
     const handlePrice = handleTypes.find(h => h.value === config.handleType)?.price || 0;
-    const flapColorPrice = colors.find(c => c.value === config.flapColor)?.price || 0;
+    const flapColorPrice = flapColors.find(c => c.value === config.flapColor)?.price || 0;
     const flapMaterialPrice = materials.find(m => m.value === config.flapMaterial)?.price || 0;
     
     return basePrice + bodyColorPrice + bodyMaterialPrice + handlePrice + flapColorPrice + flapMaterialPrice;
+  };
+
+  const getPriceBreakdown = () => {
+    const basePrice = 299;
+    const breakdown = [
+      { label: 'Sac de base', price: basePrice, isBase: true }
+    ];
+
+    const bodyColorPrice = mainColors.find(c => c.value === config.bodyColor)?.price || 0;
+    if (bodyColorPrice !== 0) {
+      const colorName = mainColors.find(c => c.value === config.bodyColor)?.name || 'Couleur';
+      breakdown.push({ label: `${colorName}`, price: bodyColorPrice, isBase: false });
+    }
+
+    const bodyMaterialPrice = materials.find(m => m.value === config.bodyMaterial)?.price || 0;
+    if (bodyMaterialPrice !== 0) {
+      const materialName = materials.find(m => m.value === config.bodyMaterial)?.name || 'Matériau';
+      breakdown.push({ label: `${materialName}`, price: bodyMaterialPrice, isBase: false });
+    }
+
+    const handlePrice = handleTypes.find(h => h.value === config.handleType)?.price || 0;
+    if (handlePrice !== 0) {
+      const handleName = handleTypes.find(h => h.value === config.handleType)?.name || 'Anse';
+      breakdown.push({ label: `${handleName}`, price: handlePrice, isBase: false });
+    }
+
+    const flapColorPrice = flapColors.find(c => c.value === config.flapColor)?.price || 0;
+    if (flapColorPrice !== 0) {
+      const colorName = flapColors.find(c => c.value === config.flapColor)?.name || 'Couleur rabat';
+      breakdown.push({ label: `${colorName}`, price: flapColorPrice, isBase: false });
+    }
+
+    const flapMaterialPrice = materials.find(m => m.value === config.flapMaterial)?.price || 0;
+    if (flapMaterialPrice !== 0) {
+      const materialName = materials.find(m => m.value === config.flapMaterial)?.name || 'Matériau rabat';
+      breakdown.push({ label: `${materialName}`, price: flapMaterialPrice, isBase: false });
+    }
+
+    return breakdown;
   };
 
   const updateConfig = (key: keyof ConfigurationState, value: string) => {
@@ -350,10 +497,22 @@ const Configurator: React.FC = () => {
             <BagViewer3D
               configuration={config}
             />
-            <PriceDisplay>{calculatePrice()}€</PriceDisplay>
-            <p style={{ color: 'var(--text-light)', marginBottom: '1rem' }}>
-              Prix personnalisé selon vos choix
-            </p>
+            <PriceContainer>
+              <PriceDisplay>{calculatePrice()}€</PriceDisplay>
+              <PriceLabel>Prix personnalisé selon vos choix</PriceLabel>
+              <PriceBreakdown>
+                {getPriceBreakdown().map((item, index) => (
+                  <BreakdownItem key={index}>
+                    <span>{item.label}</span>
+                    <span className={item.price > 0 ? 'price-change' : item.price < 0 ? 'price-change negative' : ''}>
+                      {item.isBase ? `${item.price}€` : 
+                       item.price > 0 ? `+${item.price}€` : 
+                       item.price < 0 ? `${item.price}€` : 'Inclus'}
+                    </span>
+                  </BreakdownItem>
+                ))}
+              </PriceBreakdown>
+            </PriceContainer>
           </BagPreview>
 
           <div>
@@ -382,7 +541,7 @@ const Configurator: React.FC = () => {
                   <OptionGroup>
                     <OptionGroupTitle>Couleur du Sac</OptionGroupTitle>
                     <ColorOptions>
-                      {colors.map(color => (
+                      {mainColors.map(color => (
                         <ColorSwatch
                           key={color.value}
                           color={color.value}
@@ -426,7 +585,7 @@ const Configurator: React.FC = () => {
                   <OptionGroup>
                     <OptionGroupTitle>Couleur des Anses</OptionGroupTitle>
                     <ColorOptions>
-                      {colors.map(color => (
+                      {mainColors.map(color => (
                         <ColorSwatch
                           key={color.value}
                           color={color.value}
@@ -467,7 +626,7 @@ const Configurator: React.FC = () => {
                   <OptionGroup>
                     <OptionGroupTitle>Couleur du Rabat</OptionGroupTitle>
                     <ColorOptions>
-                      {colors.map(color => (
+                      {flapColors.map(color => (
                         <ColorSwatch
                           key={color.value}
                           color={color.value}

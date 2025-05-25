@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - 3 Couleurs Principales du Configurateur</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #d4a574;
+            margin: 0 0 10px 0;
+            font-size: 2rem;
+        }
+
+        .test-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .color-selector {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .color-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .color-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .color-btn.active {
+            border-color: #d4a574;
+            box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.3);
+        }
+
+        .bag-viewer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .bag-parts {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .bag-part {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: filter 0.3s ease;
+        }
+
+        .info-panel {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #d4a574;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .status-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e5e5e5;
+        }
+
+        .status-item h4 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .status-ok {
+            border-left: 4px solid #28a745;
+        }
+
+        .status-warning {
+            border-left: 4px solid #ffc107;
+        }
+
+        .status-error {
+            border-left: 4px solid #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Test des 3 Couleurs Principales</h1>
+        <p>Body et Handle - Système PNG avec Images Dédiées</p>
+    </div>
+
+    <div class="test-section">
+        <h2>Sélection de Couleur</h2>
+        <div class="color-selector">
+            <div class="color-btn active" 
+                 style="background: #000000; color: white;" 
+                 data-color="#000000" 
+                 title="Noir">
+                NOIR
+            </div>
+            <div class="color-btn" 
+                 style="background: #8B4513; color: white;" 
+                 data-color="#8B4513" 
+                 title="Marron Cognac">
+                COGNAC
+            </div>
+            <div class="color-btn" 
+                 style="background: #FFFFFF; color: black; border: 1px solid #ccc;" 
+                 data-color="#FFFFFF" 
+                 title="Blanc">
+                BLANC
+            </div>
+        </div>
+
+        <div class="bag-viewer">
+            <div class="bag-parts">
+                <!-- Les images se superposent -->
+                <img class="bag-part" id="bagBody" alt="Corps du sac" />
+                <img class="bag-part" id="bagFlap" src="/images/bag-parts/bag-flap.png" alt="Rabat du sac" />
+                <img class="bag-part" id="bagHandle" alt="Poignée du sac" />
+            </div>
+        </div>
+
+        <div class="info-panel">
+            <h3>📊 Informations de Test</h3>
+            <div id="infoContent">
+                <p>Sélectionnez une couleur pour voir le test...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📋 Résultats des Tests</h2>
+        <div class="status-grid" id="statusGrid">
+            <!-- Généré par JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Mapping des couleurs vers les dossiers PNG
+        const colorFolderMap = {
+            '#000000': 'noir',
+            '#8B4513': 'marron-cognac',
+            '#FFFFFF': 'blanc'
+        };
+
+        const colorNames = {
+            '#000000': 'Noir',
+            '#8B4513': 'Marron Cognac',
+            '#FFFFFF': 'Blanc'
+        };
+
+        let currentColor = '#000000';
+        let loadedImages = { body: false, handle: false };
+        let testResults = {};
+
+        // Fonction pour construire le chemin de l'image
+        function getMainColorImagePath(color, part) {
+            const folder = colorFolderMap[color];
+            return `/images/bag-parts/main-colors/${folder}/${part}.png`;
+        }
+
+        // Fonction pour changer de couleur
+        function changeColor(color) {
+            currentColor = color;
+            
+            // Mettre à jour l'UI
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-color="${color}"]`).classList.add('active');
+            
+            // Charger les images appropriées
+            loadImagesForColor(color);
+            updateInfoPanel();
+        }
+
+        // Fonction pour charger les images d'une couleur
+        function loadImagesForColor(color) {
+            const bodyImg = document.getElementById('bagBody');
+            const handleImg = document.getElementById('bagHandle');
+            
+            const bodyPath = getMainColorImagePath(color, 'body');
+            const handlePath = getMainColorImagePath(color, 'handle');
+            
+            // Réinitialiser le statut de chargement
+            loadedImages = { body: false, handle: false };
+            
+            // Charger le body
+            bodyImg.onload = () => {
+                loadedImages.body = true;
+                testResults[`${color}_body`] = 'success';
+                updateStatusGrid();
+                console.log(`✅ Body chargé pour ${colorNames[color]}: ${bodyPath}`);
+            };
+            bodyImg.onerror = () => {
+                testResults[`${color}_body`] = 'error';
+                updateStatusGrid();
+                console.error(`❌ Erreur de chargement Body ${colorNames[color]}: ${bodyPath}`);
+            };
+            bodyImg.src = bodyPath;
+            
+            // Charger le handle
+            handleImg.onload = () => {
+                loadedImages.handle = true;
+                testResults[`${color}_handle`] = 'success';
+                updateStatusGrid();
+                console.log(`✅ Handle chargé pour ${colorNames[color]}: ${handlePath}`);
+            };
+            handleImg.onerror = () => {
+                testResults[`${color}_handle`] = 'error';
+                updateStatusGrid();
+                console.error(`❌ Erreur de chargement Handle ${colorNames[color]}: ${handlePath}`);
+            };
+            handleImg.src = handlePath;
+            
+            // Pas de filtre nécessaire car les images sont déjà colorées
+            bodyImg.style.filter = 'none';
+            handleImg.style.filter = 'none';
+        }
+
+        // Fonction pour mettre à jour le panneau d'informations
+        function updateInfoPanel() {
+            const info = document.getElementById('infoContent');
+            const folder = colorFolderMap[currentColor];
+            const colorName = colorNames[currentColor];
+            
+            info.innerHTML = `
+                <p><strong>Couleur sélectionnée:</strong> ${colorName} (${currentColor})</p>
+                <p><strong>Dossier PNG:</strong> main-colors/${folder}/</p>
+                <p><strong>Méthode:</strong> Images PNG dédiées (pas de filtre CSS)</p>
+                <p><strong>Status Body:</strong> ${loadedImages.body ? '✅ Chargé' : '⏳ Chargement...'}</p>
+                <p><strong>Status Handle:</strong> ${loadedImages.handle ? '✅ Chargé' : '⏳ Chargement...'}</p>
+            `;
+        }
+
+        // Fonction pour mettre à jour la grille de statut
+        function updateStatusGrid() {
+            const grid = document.getElementById('statusGrid');
+            grid.innerHTML = '';
+            
+            Object.keys(colorNames).forEach(color => {
+                const colorName = colorNames[color];
+                const bodyStatus = testResults[`${color}_body`] || 'pending';
+                const handleStatus = testResults[`${color}_handle`] || 'pending';
+                
+                const item = document.createElement('div');
+                item.className = `status-item ${getStatusClass(bodyStatus, handleStatus)}`;
+                
+                item.innerHTML = `
+                    <h4>${colorName}</h4>
+                    <p>Body: ${getStatusText(bodyStatus)}</p>
+                    <p>Handle: ${getStatusText(handleStatus)}</p>
+                `;
+                
+                grid.appendChild(item);
+            });
+        }
+
+        function getStatusClass(bodyStatus, handleStatus) {
+            if (bodyStatus === 'success' && handleStatus === 'success') return 'status-ok';
+            if (bodyStatus === 'error' || handleStatus === 'error') return 'status-error';
+            return 'status-warning';
+        }
+
+        function getStatusText(status) {
+            switch(status) {
+                case 'success': return '✅ Chargé';
+                case 'error': return '❌ Erreur';
+                default: return '⏳ En attente';
+            }
+        }
+
+        // Event listeners pour les boutons de couleur
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const color = btn.getAttribute('data-color');
+                changeColor(color);
+            });
+        });
+
+        // Initialisation
+        changeColor('#000000');
+        updateStatusGrid();
+        
+        console.log('🚀 Test des 3 couleurs principales initialisé');
+        console.log('📁 Mapping des couleurs:', colorFolderMap);
+    </script>
+</body>
+</html>

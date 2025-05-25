@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Visibilité Couleur Blanche</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .color-grid {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .color-swatch {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .color-swatch.white {
+            border-color: #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .color-swatch.active {
+            border-color: #8B4513 !important;
+        }
+        .color-swatch.active::after {
+            content: "✓";
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        .color-swatch.black.active::after {
+            color: white;
+            text-shadow: 0 0 3px rgba(0,0,0,0.8);
+        }
+        .color-swatch.white.active::after {
+            color: #2563eb;
+        }
+        .color-swatch.brown.active::after {
+            color: white;
+            text-shadow: 0 0 3px rgba(0,0,0,0.8);
+        }
+        .color-swatch:hover {
+            border-color: #8B4513;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        .success { background: #d1fae5; color: #065f46; }
+        .error { background: #fee2e2; color: #991b1b; }
+        .info { background: #dbeafe; color: #1e40af; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎨 Test de Visibilité - Couleur Blanche</h1>
+        
+        <div class="test-section">
+            <h2>Test 1: Couleurs Principales (Non Sélectionnées)</h2>
+            <p>Vérification que la couleur blanche est visible sans sélection :</p>
+            <div class="color-grid">
+                <div class="color-swatch black" style="background-color: #000000;" title="Noir"></div>
+                <div class="color-swatch brown" style="background-color: #8B4513;" title="Marron Cognac"></div>
+                <div class="color-swatch white" style="background-color: #FFFFFF;" title="Blanc"></div>
+            </div>
+            <div class="status success">✓ La couleur blanche doit avoir une bordure grise et une ombre légère</div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test 2: Couleurs Principales (Sélectionnées)</h2>
+            <p>Vérification des checkmarks selon la couleur de fond :</p>
+            <div class="color-grid">
+                <div class="color-swatch black active" style="background-color: #000000;" title="Noir Sélectionné"></div>
+                <div class="color-swatch brown active" style="background-color: #8B4513;" title="Marron Cognac Sélectionné"></div>
+                <div class="color-swatch white active" style="background-color: #FFFFFF;" title="Blanc Sélectionné"></div>
+            </div>
+            <div class="status success">✓ Checkmark blanc sur noir/marron, checkmark bleu sur blanc</div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test 3: Effet Hover</h2>
+            <p>Survolez les couleurs pour tester l'effet hover :</p>
+            <div class="color-grid">
+                <div class="color-swatch black" style="background-color: #000000;" title="Hover sur Noir"></div>
+                <div class="color-swatch brown" style="background-color: #8B4513;" title="Hover sur Marron"></div>
+                <div class="color-swatch white" style="background-color: #FFFFFF;" title="Hover sur Blanc"></div>
+            </div>
+            <div class="status info">ℹ️ Au survol : bordure marron, zoom 110%, ombre renforcée</div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test 4: Couleurs du Rabat</h2>
+            <p>Test avec toutes les couleurs du rabat incluant le nouveau Bleu Tiffany :</p>
+            <div class="color-grid">
+                <div class="color-swatch" style="background-color: #DC2626;" title="Rouge Passion"></div>
+                <div class="color-swatch" style="background-color: #059669;" title="Vert Émeraude"></div>
+                <div class="color-swatch" style="background-color: #2563EB;" title="Bleu Royal"></div>
+                <div class="color-swatch" style="background-color: #7C3AED;" title="Violet Luxe"></div>
+                <div class="color-swatch" style="background-color: #8B1538;" title="Bordeaux"></div>
+                <div class="color-swatch" style="background-color: #81D4E6;" title="Bleu Tiffany (Nouveau)"></div>
+            </div>
+            <div class="status success">✓ Toutes les couleurs doivent être visibles</div>
+        </div>
+
+        <div class="test-section">
+            <h2>Résultats Attendus</h2>
+            <ul>
+                <li><strong>Couleur blanche non sélectionnée :</strong> Bordure grise (#e2e8f0) + ombre légère</li>
+                <li><strong>Couleur blanche sélectionnée :</strong> Bordure marron + checkmark bleu (#2563eb)</li>
+                <li><strong>Autres couleurs :</strong> Fonctionnement normal avec checkmark blanc</li>
+                <li><strong>Hover :</strong> Bordure marron + zoom + ombre sur toutes les couleurs</li>
+                <li><strong>Contraste :</strong> Tous les éléments sont clairement visibles</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>🔗 Navigation</h2>
+            <p>
+                <a href="/" style="color: #8B4513; text-decoration: none; font-weight: 500;">← Retour au site principal</a> |
+                <a href="/#configurator" style="color: #8B4513; text-decoration: none; font-weight: 500;">Aller au configurateur</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Ajouter l'interactivité pour tester la sélection
+        document.querySelectorAll('.color-swatch').forEach(swatch => {
+            swatch.addEventListener('click', function() {
+                // Retirer la classe active de tous les swatches du même groupe
+                const parent = this.parentElement;
+                parent.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+                // Ajouter la classe active au swatch cliqué
+                this.classList.add('active');
+            });
+        });
+
+        console.log('🎨 Test de visibilité couleur blanche chargé');
+        console.log('✓ Bordure grise pour couleur blanche implémentée');
+        console.log('✓ Checkmark bleu pour sélection blanche implémenté');
+        console.log('✓ Ombre légère pour meilleur contraste ajoutée');
+    </script>
+</body>
+</html>

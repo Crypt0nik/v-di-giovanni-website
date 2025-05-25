@@ -17,9 +17,66 @@ interface BagViewer3DProps {
   className?: string;
 }
 
-// Fonction pour déterminer la meilleure méthode de coloration pour chaque couleur
-const getColoringMethod = (targetColor: string): { type: 'filter', value: string } => {
+// Fonction pour obtenir le chemin de l'image selon la couleur pour le body et handle
+const getMainColorImagePath = (targetColor: string, part: 'body' | 'handle'): string => {
   const upperColor = targetColor.toUpperCase();
+  
+  // Mapping des couleurs principales vers les dossiers correspondants
+  const colorFolderMap: { [key: string]: string } = {
+    '#000000': 'noir',           // Noir
+    '#8B4513': 'marron-cognac',  // Marron Cognac
+    '#FFFFFF': 'blanc'           // Blanc
+  };
+  
+  const colorFolder = colorFolderMap[upperColor];
+  
+  if (colorFolder) {
+    return `/images/bag-parts/main-colors/${colorFolder}/${part}.png`;
+  }
+  
+  // Fallback vers l'ancienne méthode si la couleur n'est pas dans les 3 principales
+  return `/images/bag-parts/bag-${part}.png`;
+};
+
+// Fonction pour obtenir le chemin de l'image du rabat depuis le dossier colors
+const getFlapColorImagePath = (targetColor: string): string => {
+  const upperColor = targetColor.toUpperCase();
+  
+  // Mapping des couleurs du rabat vers les dossiers correspondants
+  const flapColorFolderMap: { [key: string]: string } = {
+    '#8B4513': 'marron-cognac',  // Marron Cognac
+    '#2C2C2C': 'gris-fonce',     // Gris Foncé (ex-Noir Élégant)
+    '#D4A574': 'beige-nude',     // Beige Nude
+    '#F4E6E1': 'rose-poudre',    // Rose Poudré
+    '#8B1538': 'bordeaux',       // Bordeaux
+    '#81D4E6': 'bleu-tiffany'    // Bleu Tiffany (ex-Bleu Marine)
+  };
+  
+  const colorFolder = flapColorFolderMap[upperColor];
+  
+  if (colorFolder) {
+    return `/images/bag-parts/colors/${colorFolder}/flap.png`;
+  }
+  
+  // Fallback vers l'ancienne méthode si la couleur n'est pas dans les couleurs du rabat
+  return `/images/bag-parts/bag-flap.png`;
+};
+
+// Fonction pour déterminer la meilleure méthode de coloration pour chaque couleur
+const getColoringMethod = (targetColor: string, part: 'body' | 'handle' | 'flap' = 'flap'): { type: 'filter', value: string } => {
+  const upperColor = targetColor.toUpperCase();
+  
+  // Pour les couleurs principales du body et handle, pas de filtre nécessaire car les images PNG sont déjà colorées
+  const mainColors = ['#000000', '#8B4513', '#FFFFFF'];
+  if ((part === 'body' || part === 'handle') && mainColors.includes(upperColor)) {
+    return { type: 'filter', value: 'none' };
+  }
+  
+  // Pour les couleurs du rabat, pas de filtre nécessaire car les images PNG sont déjà colorées
+  const flapColors = ['#8B4513', '#2C2C2C', '#D4A574', '#F4E6E1', '#8B1538', '#81D4E6'];
+  if (part === 'flap' && flapColors.includes(upperColor)) {
+    return { type: 'filter', value: 'none' };
+  }
   
   // Mapping spécialisé pour les 6 couleurs du configurateur - TOUS EN FILTRES CSS
   const colorMethods: { [key: string]: any } = {
@@ -223,58 +280,6 @@ const BagPartContainer = styled.div`
   }
 `;
 
-const ConfiguratorBadge = styled.div`
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  background: rgba(139, 69, 19, 0.9);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-  
-  &::before {
-    content: "🎨";
-    margin-right: 6px;
-  }
-`;
-
-const ViewerControls = styled.div`
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  z-index: 10;
-  display: flex;
-  gap: 8px;
-`;
-
-const ControlButton = styled(motion.button)`
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  color: var(--primary-color);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-
-  &:hover {
-    background: var(--primary-color);
-    color: white;
-    transform: scale(1.05);
-  }
-`;
-
 const LoadingFallback = styled.div`
   display: flex;
   flex-direction: column;
@@ -327,28 +332,6 @@ const ErrorMessage = styled.div`
   }
 `;
 
-const ColorIndicator = styled.div<{ $color: string }>`
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: ${props => props.$color};
-  border: 3px solid white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  
-  &::after {
-    content: "🎨";
-    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
-  }
-`;
-
 const LoadingProgress = styled.div<{ $progress: number }>`
   position: absolute;
   bottom: 0;
@@ -367,7 +350,6 @@ const BagViewer3D: React.FC<BagViewer3DProps> = ({ configuration, className }) =
     flap: false,
     handle: false
   });
-  const [hasError, setHasError] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [showImages, setShowImages] = useState(false);
 
@@ -441,25 +423,6 @@ const BagViewer3D: React.FC<BagViewer3DProps> = ({ configuration, className }) =
     });
   }, [allImagesLoaded, showImages, imagesLoaded, loadingProgress]);
 
-  const resetView = () => {
-    // Réinitialiser les états
-    setImagesLoaded({ body: false, flap: false, handle: false });
-    setHasError(false);
-    setLoadingProgress(0);
-    setShowImages(false);
-    
-    // Nouveau timeout après reset
-    setTimeout(() => {
-      console.log('Reset - Forcage de affichage apres reset');
-      setShowImages(true);
-      setImagesLoaded({ body: true, flap: true, handle: true });
-      setLoadingProgress(100);
-    }, 1000);
-  };
-
-  // Déterminer la couleur principale pour l'indicateur
-  const primaryColor = configuration.bodyColor || '#8B4513';
-
   // Afficher un message d'erreur si les images ne se chargent pas
   if (false) { // Temporairement désactivé pour debugger
     return (
@@ -492,24 +455,9 @@ const BagViewer3D: React.FC<BagViewer3DProps> = ({ configuration, className }) =
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <ColorIndicator $color={primaryColor} />
-      
-      <ViewerControls>
-        <ControlButton
-          onClick={resetView}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          title="Actualiser l'aperçu"
-        >
-          ↻
-        </ControlButton>
-      </ViewerControls>
 
-      <ConfiguratorBadge>
-        Vos images PNG
-      </ConfiguratorBadge>
 
-      {!allImagesLoaded && !hasError && (
+      {!allImagesLoaded && (
         <>
           <LoadingFallback>
             <div className="loading-text">
@@ -534,11 +482,12 @@ const BagViewer3D: React.FC<BagViewer3DProps> = ({ configuration, className }) =
       }}>
         {/* Corps du sac - votre image personnalisée */}
         {(() => {
-          const bodyMethod = getColoringMethod(configuration.bodyColor);
+          const bodyMethod = getColoringMethod(configuration.bodyColor, 'body');
+          const bodyImagePath = getMainColorImagePath(configuration.bodyColor, 'body');
           return (
             <BagPartContainer>
               <BagPartImage
-                src="/images/bag-parts/bag-body.png"
+                src={bodyImagePath}
                 alt="Corps du sac"
                 $filter={bodyMethod.value}
                 onLoad={() => handleImageLoad('body')}
@@ -548,17 +497,25 @@ const BagViewer3D: React.FC<BagViewer3DProps> = ({ configuration, className }) =
           );
         })()}
 
-        {/* Rabat du sac - votre image personnalisée - SYSTÈME CORRIGÉ */}
+        {/* Rabat du sac - images PNG depuis le dossier colors */}
         {(() => {
-          const flapMethod = getColoringMethod(configuration.flapColor);
+          const flapMethod = getColoringMethod(configuration.flapColor, 'flap');
+          const flapImagePath = getFlapColorImagePath(configuration.flapColor);
           return (
             <BagPartContainer>
               <BagPartImage
-                src="/images/bag-parts/bag-flap.png"
+                src={flapImagePath}
                 alt="Rabat du sac"
                 $filter={flapMethod.value}
                 onLoad={() => handleImageLoad('flap')}
                 onError={handleImageError}
+
+                style={{
+                  transform: 'translate(0px, 0px)', // X horizontal, Y vertical
+                  marginLeft: '2px',
+                  marginTop: '6.6px'
+                  , width: '99%', height: '98%'
+                }}
               />
             </BagPartContainer>
           );
@@ -566,23 +523,27 @@ const BagViewer3D: React.FC<BagViewer3DProps> = ({ configuration, className }) =
 
         {/* Poignée du sac - votre image personnalisée */}
         {(() => {
-          const handleMethod = getColoringMethod(configuration.handleColor);
+          const handleMethod = getColoringMethod(configuration.handleColor, 'handle');
+          const handleImagePath = getMainColorImagePath(configuration.handleColor, 'handle');
           return (
             <BagPartContainer>
               <BagPartImage
-                src="/images/bag-parts/bag-handle.png"
+                src={handleImagePath}
                 alt="Poignée du sac"
                 $filter={handleMethod.value}
                 onLoad={() => handleImageLoad('handle')}
                 onError={handleImageError}
+
+                style={{
+                  transform: 'translate(0px, 0px)', // X horizontal, Y vertical
+                  marginLeft: '-1px',
+                  marginTop: '7px'
+                }}
               />
             </BagPartContainer>
           );
         })()}
       </BagImageContainer>
-
-      {/* Indicateur de couleur en temps réel */}
-      <ColorIndicator $color={configuration.bodyColor} />
 
       {/* Barre de progression de chargement */}
       {!allImagesLoaded && (

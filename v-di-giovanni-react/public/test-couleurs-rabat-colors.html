@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Couleurs Rabat depuis dossier Colors</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #d4a574;
+            margin: 0 0 10px 0;
+            font-size: 2rem;
+        }
+
+        .test-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .color-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .color-btn {
+            padding: 15px;
+            border-radius: 12px;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .color-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .color-btn.active {
+            border-color: #d4a574;
+            box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.3);
+        }
+
+        .flap-viewer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+            position: relative;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px dashed #dee2e6;
+        }
+
+        .flap-image {
+            max-width: 250px;
+            max-height: 250px;
+            object-fit: contain;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .info-panel {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #d4a574;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .status-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e5e5e5;
+            text-align: center;
+        }
+
+        .status-item h4 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .status-ok {
+            border-left: 4px solid #28a745;
+        }
+
+        .status-error {
+            border-left: 4px solid #dc3545;
+        }
+
+        .status-pending {
+            border-left: 4px solid #ffc107;
+        }
+
+        .highlight {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎨 Test Couleurs Rabat - Dossier Colors</h1>
+        <p>Validation du système PNG avec Bleu Tiffany</p>
+    </div>
+
+    <div class="test-section">
+        <h2>Sélection de Couleur du Rabat</h2>
+        <div class="color-selector">
+            <div class="color-btn active" 
+                 style="background: #8B4513;" 
+                 data-color="#8B4513" 
+                 data-folder="marron-cognac"
+                 title="Marron Cognac">
+                Marron Cognac
+            </div>
+            <div class="color-btn" 
+                 style="background: #2C2C2C;" 
+                 data-color="#2C2C2C" 
+                 data-folder="gris-fonce"
+                 title="Gris Foncé">
+                Gris Foncé
+            </div>
+            <div class="color-btn" 
+                 style="background: #D4A574;" 
+                 data-color="#D4A574" 
+                 data-folder="beige-nude"
+                 title="Beige Nude">
+                Beige Nude
+            </div>
+            <div class="color-btn" 
+                 style="background: #F4E6E1; color: #333;" 
+                 data-color="#F4E6E1" 
+                 data-folder="rose-poudre"
+                 title="Rose Poudré">
+                Rose Poudré
+            </div>
+            <div class="color-btn" 
+                 style="background: #8B1538;" 
+                 data-color="#8B1538" 
+                 data-folder="bordeaux"
+                 title="Bordeaux">
+                Bordeaux
+            </div>
+            <div class="color-btn highlight" 
+                 style="background: #81D4E6; color: #333;" 
+                 data-color="#81D4E6" 
+                 data-folder="bleu-tiffany"
+                 title="Bleu Tiffany - NOUVEAU">
+                🆕 Bleu Tiffany
+            </div>
+        </div>
+
+        <div class="flap-viewer">
+            <img class="flap-image" id="flapImage" alt="Rabat du sac" />
+        </div>
+
+        <div class="info-panel">
+            <h3>📊 Informations de Test</h3>
+            <div id="infoContent">
+                <p>Sélectionnez une couleur pour voir le test...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <div class="highlight">
+            <h3>🆕 Nouveau : Bleu Tiffany</h3>
+            <p><strong>Ancien :</strong> Bleu Marine (#1E3A8A) - dossier bleu-marine/</p>
+            <p><strong>Nouveau :</strong> Bleu Tiffany (#81D4E6) - dossier bleu-tiffany/</p>
+            <p><strong>Méthode :</strong> Image PNG dédiée (pas de filtre CSS)</p>
+        </div>
+
+        <h2>📋 Résultats des Tests</h2>
+        <div class="status-grid" id="statusGrid">
+            <!-- Généré par JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Configuration des couleurs du rabat
+        const flapColors = [
+            { name: 'Marron Cognac', hex: '#8B4513', folder: 'marron-cognac' },
+            { name: 'Gris Foncé', hex: '#2C2C2C', folder: 'gris-fonce' },
+            { name: 'Beige Nude', hex: '#D4A574', folder: 'beige-nude' },
+            { name: 'Rose Poudré', hex: '#F4E6E1', folder: 'rose-poudre' },
+            { name: 'Bordeaux', hex: '#8B1538', folder: 'bordeaux' },
+            { name: 'Bleu Tiffany', hex: '#81D4E6', folder: 'bleu-tiffany' }
+        ];
+
+        let currentColor = '#8B4513';
+        let testResults = {};
+
+        // Fonction pour obtenir le chemin de l'image du rabat
+        function getFlapColorImagePath(color) {
+            const colorInfo = flapColors.find(c => c.hex === color);
+            if (colorInfo) {
+                return `/images/bag-parts/colors/${colorInfo.folder}/flap.png`;
+            }
+            return `/images/bag-parts/bag-flap.png`; // fallback
+        }
+
+        // Fonction pour changer de couleur
+        function changeColor(color, folder) {
+            currentColor = color;
+            
+            // Mettre à jour l'UI
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-color="${color}"]`).classList.add('active');
+            
+            // Charger l'image appropriée
+            loadFlapImage(color, folder);
+            updateInfoPanel(color, folder);
+        }
+
+        // Fonction pour charger l'image du rabat
+        function loadFlapImage(color, folder) {
+            const flapImg = document.getElementById('flapImage');
+            const imagePath = getFlapColorImagePath(color);
+            
+            flapImg.onload = () => {
+                testResults[color] = 'success';
+                updateStatusGrid();
+                console.log(`✅ Rabat chargé pour ${color}: ${imagePath}`);
+            };
+            
+            flapImg.onerror = () => {
+                testResults[color] = 'error';
+                updateStatusGrid();
+                console.error(`❌ Erreur de chargement Rabat ${color}: ${imagePath}`);
+            };
+            
+            flapImg.src = imagePath;
+            // Pas de filtre CSS car l'image PNG est déjà colorée
+            flapImg.style.filter = 'none';
+        }
+
+        // Fonction pour mettre à jour le panneau d'informations
+        function updateInfoPanel(color, folder) {
+            const info = document.getElementById('infoContent');
+            const colorInfo = flapColors.find(c => c.hex === color);
+            
+            info.innerHTML = `
+                <p><strong>Couleur sélectionnée:</strong> ${colorInfo?.name || 'Inconnue'} (${color})</p>
+                <p><strong>Dossier PNG:</strong> colors/${folder}/</p>
+                <p><strong>Chemin image:</strong> /images/bag-parts/colors/${folder}/flap.png</p>
+                <p><strong>Méthode:</strong> Image PNG dédiée (filter: none)</p>
+                <p><strong>Status:</strong> ${testResults[color] === 'success' ? '✅ Chargé' : testResults[color] === 'error' ? '❌ Erreur' : '⏳ Chargement...'}</p>
+            `;
+        }
+
+        // Fonction pour mettre à jour la grille de statut
+        function updateStatusGrid() {
+            const grid = document.getElementById('statusGrid');
+            grid.innerHTML = '';
+            
+            flapColors.forEach(colorInfo => {
+                const status = testResults[colorInfo.hex] || 'pending';
+                
+                const item = document.createElement('div');
+                item.className = `status-item status-${status === 'success' ? 'ok' : status === 'error' ? 'error' : 'pending'}`;
+                
+                item.innerHTML = `
+                    <h4>${colorInfo.name}</h4>
+                    <p>Dossier: ${colorInfo.folder}</p>
+                    <p>${getStatusText(status)}</p>
+                `;
+                
+                grid.appendChild(item);
+            });
+        }
+
+        function getStatusText(status) {
+            switch(status) {
+                case 'success': return '✅ Chargé';
+                case 'error': return '❌ Erreur';
+                default: return '⏳ En attente';
+            }
+        }
+
+        // Event listeners pour les boutons de couleur
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const color = btn.getAttribute('data-color');
+                const folder = btn.getAttribute('data-folder');
+                changeColor(color, folder);
+            });
+        });
+
+        // Initialisation
+        changeColor('#8B4513', 'marron-cognac');
+        updateStatusGrid();
+        
+        console.log('🚀 Test des couleurs rabat depuis dossier colors initialisé');
+        console.log('🆕 Nouveau: Bleu Tiffany (#81D4E6) remplace Bleu Marine (#1E3A8A)');
+        console.log('📁 Mapping des couleurs:', flapColors);
+    </script>
+</body>
+</html>
