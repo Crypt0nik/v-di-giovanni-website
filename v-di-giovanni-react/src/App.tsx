@@ -9,6 +9,8 @@ import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import TestBagViewer from './TestBagViewer';
+import IntegrationTest from './components/IntegrationTest';
+import SimpleTest from './components/SimpleTest';
 
 const theme = {
   colors: {
@@ -28,6 +30,12 @@ const theme = {
 function App() {
   // Vérifier si on est sur la page de test
   const isTestPage = window.location.pathname === '/test' || window.location.search.includes('test=true');
+  
+  // Vérifier si on est sur la page de test d'intégration
+  const isIntegrationTestPage = window.location.pathname === '/integration-test' || window.location.search.includes('integration=true');
+
+  // Mode simple pour déboguer
+  const isSimpleMode = window.location.search.includes('simple=true');
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -35,6 +43,26 @@ function App() {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  // Mode simple pour vérifier que React fonctionne
+  if (isSimpleMode) {
+    return (
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <SimpleTest />
+      </ThemeProvider>
+    );
+  }
+
+  // Si on est sur la page de test d'intégration
+  if (isIntegrationTestPage) {
+    return (
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <IntegrationTest />
+      </ThemeProvider>
+    );
+  }
 
   // Si on est sur la page de test, afficher seulement le testeur
   if (isTestPage) {
@@ -45,6 +73,24 @@ function App() {
       </ThemeProvider>
     );
   }
+
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <div className="App">
+        <Header onNavigate={scrollToSection} />
+        <main>
+          <Hero onNavigateToConfigurator={() => scrollToSection('configurator')} />
+          <Products />
+          <Configurator />
+          <About />
+          <Testimonials />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+    </ThemeProvider>
+  );
 
   return (
     <ThemeProvider theme={theme}>

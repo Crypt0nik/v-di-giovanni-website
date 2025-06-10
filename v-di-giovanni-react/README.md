@@ -2,7 +2,19 @@
 
 Un configurateur interactif de sacs en cuir artisanaux créé avec React, Vite et TypeScript.
 
-## 🌐 Démo en ligne
+## 🌐 Démo### Roadmap
+
+### Fonctionnalités Réalisées
+- [x] **Correction TypeScript** - Correction des erreurs d'importation et d'interface
+- [x] **Système de diagnostic** - Outils de diagnostic de l'application
+- [x] **Gestion d'erreurs** - Implémentation robuste d'ErrorBoundary
+
+### Fonctionnalités Prévues
+- [ ] **Boutons Dimension** - Affichage des mesures du sac
+- [ ] **Boutons Comparateur** - Comparaison entre configurations
+- [ ] **Galerie de réalisations** - Showcase des créations
+- [ ] **Système de commande** - Intégration e-commerce
+- [ ] **Authentification** - Espace client personnalisée
 
 **[Voir le configurateur en action](https://v-di-giovanni-osmumtzgd-arthurs-projects-a2b80d46.vercel.app)**
 
@@ -106,16 +118,27 @@ Le configurateur utilise un système de superposition d'images PNG optimisé :
 
 ## 🛠️ Développement et Debug
 
+### Outils de Diagnostic
+Le projet inclut des outils complets de diagnostic pour le développement et le dépannage :
+- **Mode Diagnostic** - Accessible via `/diagnostic` ou `?diagnostic=true`
+- **Mode Simple** - Interface minimale via `?simple=true`
+- **ErrorBoundary** - Capture et affichage des erreurs silencieuses
+- **Console de débogage** - Logs détaillés pour le développement
+
 ### Fichiers de Test
 Le projet inclut plusieurs fichiers de test HTML pour validation :
-- `test-configurateur-complet.html` - Test complet du configurateur
-- `test-3-couleurs-principales.html` - Validation des couleurs principales
-- `test-validation-boutons.html` - Test des boutons d'interaction
+- `diagnostic-profond-react.html` - Diagnostic approfondi de l'application React
+- `test-diagnostique.html` - Tests interactifs pour diagnostiquer les problèmes de rendu
+- `test-basic.html` - Test de base pour validation des fonctionnalités
+- Plus d'autres fichiers pour des tests spécifiques
 
 ### Scripts de Validation
-- `verification-finale.sh` - Vérification complète du système
+- `restart-clean.sh` - Redémarrage propre avec nettoyage du cache
 - `validation-couleur-blanche.sh` - Test spécifique couleur blanche
-- `verifier-images.sh` - Validation des assets images
+- `validation-finale-ecommerce.sh` - Test d'intégration e-commerce
+
+### Documentation
+Pour plus d'informations sur les corrections TypeScript et la résolution des problèmes de page blanche, voir [CORRECTION-TYPESCRIPT-PAGE-BLANCHE.md](./CORRECTION-TYPESCRIPT-PAGE-BLANCHE.md)
 
 ## 🔄 Workflow de Déploiement
 
@@ -153,11 +176,14 @@ npx vercel --prod
 - **App.tsx** : Router et layout principal
 - **Configurator.tsx** : Logique du configurateur
 - **BagViewer3D.tsx** : Affichage et interactions visuelles
+- **ErrorBoundary.tsx** : Gestion des erreurs React
+- **DiagnosticComponent.tsx** : Outil de diagnostic d'application
 
 ### État de l'Application
 - État local React pour la configuration actuelle
-- Pas de state management externe (simplicité)
-- Props drilling maîtrisé avec TypeScript
+- Context API pour l'authentification et le panier
+- Hooks personnalisés pour la logique métier
+- Système de gestion d'erreurs robuste
 
 ## 🔧 Configuration
 
